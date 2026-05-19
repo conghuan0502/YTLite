@@ -275,6 +275,8 @@
 "NoFreeZoomDesc" = "Tắt cử chỉ thu phóng video";
 "NoDoubleTap2Seek" = "Tắt chạm hai lần để tua";
 "NoDoubleTap2SeekDesc" = "Tắt thao tác chạm hai lần để tua";
+"FixPlayback" = "Sửa lỗi phát video";
+"FixPlaybackDesc" = "Sửa lỗi 'No stream' bằng cách ngăn lọc luồng dữ liệu và tự động tải lại khi gặp lỗi.";
 
 /* Shorts options */
 "Shorts" = "Video ngắn (Shorts)";

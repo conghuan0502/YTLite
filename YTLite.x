@@ -1380,7 +1380,52 @@ static NSURL *newCoverURL(NSURL *originalURL) {
 // }
 // %end
 
+// Fix Playback Issues
+static NSTimer *fixPlaybackBufferTimer = nil;
+
+%group FixPlayback
+
+%hook MLHLSStreamSelector
+- (void)didLoadHLSMasterPlaylist:(id)arg1 {
+    %orig;
+    MLHLSMasterPlaylist *playlist = [self valueForKey:@"_completeMasterPlaylist"];
+    NSArray *remotePlaylists = [playlist remotePlaylists];
+    if (remotePlaylists.count > 0) {
+        [self streamSelectorHasSelectableVideoFormats:remotePlaylists];
+    }
+}
+%end
+
+%hook MLHAMQueuePlayer
+- (void)setState:(NSInteger)state {
+    %orig;
+    if (fixPlaybackBufferTimer) {
+        [fixPlaybackBufferTimer invalidate];
+        fixPlaybackBufferTimer = nil;
+    }
+    if (state == 5 || state == 6 || state == 8) {
+        __weak typeof(self) weakSelf = self;
+        fixPlaybackBufferTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 repeats:NO block:^(NSTimer *timer) {
+            fixPlaybackBufferTimer = nil;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (strongSelf) {
+                id video = [strongSelf valueForKey:@"_delegate"];
+                id playbackController = [video valueForKey:@"_delegate"];
+                id retryEvent = [NSClassFromString(@"YTPlayerTapToRetryResponderEvent") performSelector:@selector(eventWithFirstResponder:) withObject:[playbackController performSelector:@selector(parentResponder)]];
+                [retryEvent performSelector:@selector(send)];
+            }
+        }];
+    }
+}
+%end
+
+%end
+
 %ctor {
+    if (ytlBool(@"fixPlayback")) {
+        %init(FixPlayback);
+    }
+
     if (ytlBool(@"shortsOnlyMode") && (ytlBool(@"removeShorts") || ytlBool(@"reExplore"))) {
         ytlSetBool(NO, @"removeShorts");
         ytlSetBool(NO, @"reExplore");

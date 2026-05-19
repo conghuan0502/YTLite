@@ -275,6 +275,8 @@
 "NoFreeZoomDesc" = "Disables new free zoom gestures.";
 "NoDoubleTap2Seek" = "Disable double tap to seek";
 "NoDoubleTap2SeekDesc" = "Disables double tap to seek gesture.";
+"FixPlayback" = "Fix playback issues";
+"FixPlaybackDesc" = "Fixes 'No stream' playback errors by preventing stream filtering and auto-reloading on failure.";
 
 /* Shorts options */
 "Shorts" = "Shorts";

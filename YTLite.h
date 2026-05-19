@@ -348,3 +348,23 @@
 + (instancetype)sheetControllerWithMessage:(NSString *)message delegate:(id)delegate parentResponder:(id)parentResponder;
 + (instancetype)sheetControllerWithMessage:(NSString *)message subMessage:(NSString *)subMessage delegate:(id)delegate parentResponder:(id)parentResponder;
 @end
+
+// Fix Playback
+@class MLFormat;
+@interface MLHLSMasterPlaylist : NSObject
+- (NSArray<MLFormat *> *)remotePlaylists;
+@end
+
+@interface MLHLSStreamSelector : NSObject
+- (id)delegate;
+- (void)streamSelectorHasSelectableVideoFormats:(NSArray *)formats;
+@end
+
+@interface MLHAMQueuePlayer : NSObject
+@property (nonatomic, weak) id delegate;
+- (void)setState:(NSInteger)state;
+@end
+
+@interface YTLocalPlaybackController : NSObject
+- (id)parentResponder;
+@end

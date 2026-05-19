@@ -222,7 +222,8 @@ static NSString *GetCacheSize() {
                 [self switchWithTitle:@"NoFreeZoom" key:@"noFreeZoom"],
                 [self switchWithTitle:@"AutoFullscreen" key:@"autoFullscreen"],
                 [self switchWithTitle:@"ExitFullscreen" key:@"exitFullscreen"],
-                [self switchWithTitle:@"NoDoubleTap2Seek" key:@"noDoubleTapToSeek"]
+                [self switchWithTitle:@"NoDoubleTap2Seek" key:@"noDoubleTapToSeek"],
+                [self switchWithTitle:@"FixPlayback" key:@"fixPlayback"]
             ];
 
             YTSettingsPickerViewController *picker = [[%c(YTSettingsPickerViewController) alloc] initWithNavTitle:LOC(@"Player") pickerSectionTitle:nil rows:rows selectedItemIndex:NSNotFound parentResponder:[self parentResponder]];
